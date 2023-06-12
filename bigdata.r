@@ -4,6 +4,11 @@ data <- read.csv("stat_acc_V3.csv", header = TRUE, sep = ";")
 # Convert "Null" values to NA
 data[data == "NULL"] <- NA
 
+# Convert the an_nais column to numeric
+# and replace the NA values with the median of the an_nais column
+data$an_nais <- as.numeric(data$an_nais)
+data$an_nais[is.na(data$an_nais)] <- median(data$an_nais, na.rm = TRUE)
+
 # Convert the place column to numeric
 # and replace the NA values with the median of the place column
 data$place <- as.numeric(data$place)
