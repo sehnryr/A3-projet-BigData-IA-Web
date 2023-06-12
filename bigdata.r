@@ -22,6 +22,10 @@ data$place[is.na(data$place)] <- median(data$place, na.rm = TRUE)
 # Convert the date column to date format
 data$date <- as.Date(data$date, format = "%Y-%m-%d %H:%M:%S")
 
+# Convert the latitude and longitude columns to numeric
+data$latitude <- as.numeric(data$latitude)
+data$longitude <- as.numeric(data$longitude)
+
 # Add a month column to the data frame
 data$month <- as.numeric(format(data$date, "%m"))
 
