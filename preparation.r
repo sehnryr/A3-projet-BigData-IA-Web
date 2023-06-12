@@ -1,5 +1,7 @@
-# Read stat_acc_V3.csv for data preparation
-data <- read.csv("stat_acc_V3.csv", header = TRUE, sep = ";")
+# Description: This script prepares the data for the analysis.
+
+# Load the read.r script to read the data
+source("read.r")
 
 # Convert "Null" values to NA
 data[data == "NULL"] <- NA
