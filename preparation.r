@@ -21,6 +21,17 @@ data$age[is.na(data$age)] <- median(data$age, na.rm = TRUE)
 data$place <- as.numeric(data$place)
 data$place[is.na(data$place)] <- median(data$place, na.rm = TRUE)
 
+# Replace the latitude and longitude values with the values of laposte_hexasmal.csv file
+laposte_hexasmal <- read.csv("laposte_hexasmal.csv", header = TRUE, sep = ";")
+# Split coordonnees_geographiques column into latitude and longitude columns
+laposte_hexasmal$latitude <- as.numeric(sapply(strsplit(as.character(laposte_hexasmal$coordonnees_geographiques), ","), head, 1))
+laposte_hexasmal$longitude <- as.numeric(sapply(strsplit(as.character(laposte_hexasmal$coordonnees_geographiques), ","), tail, 1))
+
+data$latitude <- laposte_hexasmal$latitude[match(data$id_code_insee, laposte_hexasmal$code_commune_insee)]
+data$longitude <- laposte_hexasmal$longitude[match(data$id_code_insee, laposte_hexasmal$code_commune_insee)]
+
+print(data$latitude[3190])
+
 # Convert columns to numeric
 data$Num_Acc <- as.numeric(data$Num_Acc)
 data$id_usa <- as.numeric(data$id_usa)
