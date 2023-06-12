@@ -30,8 +30,6 @@ laposte_hexasmal$longitude <- as.numeric(sapply(strsplit(as.character(laposte_he
 data$latitude <- laposte_hexasmal$latitude[match(data$id_code_insee, laposte_hexasmal$code_commune_insee)]
 data$longitude <- laposte_hexasmal$longitude[match(data$id_code_insee, laposte_hexasmal$code_commune_insee)]
 
-print(data$latitude[3190])
-
 # Convert columns to numeric
 data$Num_Acc <- as.numeric(data$Num_Acc)
 data$id_usa <- as.numeric(data$id_usa)
