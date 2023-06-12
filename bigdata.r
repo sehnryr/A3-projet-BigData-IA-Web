@@ -9,6 +9,11 @@ data[data == "NULL"] <- NA
 data$an_nais <- as.numeric(data$an_nais)
 data$an_nais[is.na(data$an_nais)] <- median(data$an_nais, na.rm = TRUE)
 
+# Convert the age column to numeric
+# and replace the NA values with the median of the age column
+data$age <- as.numeric(data$age)
+data$age[is.na(data$age)] <- median(data$age, na.rm = TRUE)
+
 # Convert the place column to numeric
 # and replace the NA values with the median of the place column
 data$place <- as.numeric(data$place)
