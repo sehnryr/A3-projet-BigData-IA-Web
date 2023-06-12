@@ -27,8 +27,8 @@ data$id_usa <- as.numeric(data$id_usa)
 data$latitude <- as.numeric(data$latitude)
 data$longitude <- as.numeric(data$longitude)
 
-# Convert the date column to date format
-data$date <- as.Date(data$date, format = "%Y-%m-%d %H:%M:%S")
+# Convert the date column to a date format
+data$date <- strptime(data$date, format = "%Y-%m-%d %H:%M:%S")
 
 # Add a month column to the data frame
 data$month <- as.numeric(format(data$date, "%m"))
