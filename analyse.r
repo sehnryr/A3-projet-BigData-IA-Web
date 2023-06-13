@@ -4,9 +4,12 @@
 # Load the preparation.r script to read and prepare data for use
 source("preparation.r")
 source("visualisation.r")
+
 library(vcd)
 library(ggplot2)
 
+# Créer une colonne tranche_age à partir de la colonne age
+data$tranche_age <- cut(data$age, breaks = c(0, 17, 24, 39, 59, 74, 100, 200), labels = c("0-17", "18-24", "25-39", "40-59", "60-74", "75-100", "100+"))
 
 variable <- c("code_departement", "descr_cat_veh", "descr_agglo", "descr_athmo", "descr_lum", "descr_etat_surf", "description_intersection", "tranche_age", "place", "descr_dispo_secu", "descr_grav", "descr_motif_traj", "descr_type_col", "month", "week", "hour")
 
