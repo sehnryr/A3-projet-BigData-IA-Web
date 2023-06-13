@@ -19,7 +19,8 @@ ggplot(data_atmospheric_condition, aes(x = descr_athmo, y = count)) +
   geom_text(aes(label = count), vjust = -0.3, size = 3.5) +
   labs(title = "Accidents by atmospheric condition", x = "Atmospheric condition", y = "Count") +
   theme(plot.title = element_text(hjust = 0.5)) +
-  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1))
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1)) +
+  scale_x_discrete(labels = setNames(names(valeur_descr_athmo), valeur_descr_athmo))
 
 # Number of accidents per surface condition
 data_surface_condition <- data %>%
@@ -31,7 +32,8 @@ ggplot(data_surface_condition, aes(x = descr_etat_surf, y = count)) +
   geom_text(aes(label = count), vjust = -0.3, size = 3.5) +
   labs(title = "Accidents by surface condition", x = "Surface condition", y = "Count") +
   theme(plot.title = element_text(hjust = 0.5)) +
-  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1))
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1)) +
+  scale_x_discrete(labels = setNames(names(valeurs_descr_etat_surf), valeurs_descr_etat_surf))
 
 # Number of accidents per gravity of the accident
 data_gravity <- data %>%
@@ -43,7 +45,8 @@ ggplot(data_gravity, aes(x = descr_grav, y = count)) +
   geom_text(aes(label = count), vjust = -0.3, size = 3.5) +
   labs(title = "Accidents by gravity", x = "Gravity", y = "Count") +
   theme(plot.title = element_text(hjust = 0.5)) +
-  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1))
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1)) +
+  scale_x_discrete(labels = setNames(names(valeurs_descr_grav), valeurs_descr_grav))
 
 # Number of accidents per hour
 data$hour <- as.numeric(format(data$date, "%H"))
@@ -74,24 +77,43 @@ ggplot(data_city, aes(x = reorder(ville, -count), y = count)) +
   theme(plot.title = element_text(hjust = 0.5)) +
   theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1))
 
-data$age <- 2009 - as.integer(data$an_nais)
-#crée un histogramme à partir en fonction du nombre d'accident par tranche d'age
-hist(data$age, main = "Histogramme du nombre d'accident par année de naissance", xlab = "Année de naissance", ylab = "Nombre d'accidents")
+# Number of accidents per age
+data_age <- data %>%
+  group_by(age) %>%
+  summarise(count = n())
+data_age$age <- as.numeric(data_age$age - (2023 - 2009))
 
-accidentparmois <- list(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+ggplot(data_age, aes(x = age, y = count)) +
+  geom_bar(stat = "identity", fill = "steelblue") +
+  labs(title = "Accidents by age", x = "Age", y = "Count") +
+  theme(plot.title = element_text(hjust = 0.5)) +
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1))
 
-# Calcul du nombre d'accidents par mois
-for (i in 1:12) {
-  AccidentparMois <- data[data$month == i,]
-  nbAccident <- nrow(AccidentparMois)
-  accidentparmois[[i]] <- nbAccident
-}
+# Number of accidents per month
+data_month <- data %>%
+  group_by(month) %>%
+  summarise(count = n())
+data_month$month_name <- c(
+  "January",
+  "February",
+  "March",
+  "April",
+  "May",
+  "June",
+  "July",
+  "August",
+  "September",
+  "October",
+  "November",
+  "December"
+)[data_month$month]
 
-barplot(unlist(accidentparmois), 
-        names.arg = c("Jan", "Fév", "Mar", "Avr", "Mai", "Juin", "Juil", "Août", "Sep", "Oct", "Nov", "Déc"),
-        xlab = "Mois",
-        ylab = "Nombre d'accidents",
-        main = "Nombre d'accidents par mois")
+ggplot(data_month, aes(x = reorder(month_name, month), y = count)) +
+  geom_bar(stat = "identity", fill = "steelblue") +
+  geom_text(aes(label = count), vjust = -0.3, size = 3.5) +
+  labs(title = "Accidents by month", x = "Month", y = "Count") +
+  theme(plot.title = element_text(hjust = 0.5)) +
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1))
 
 # Retrieve the department names with the corresponding code because the map_data
 # function does not provide the department codes

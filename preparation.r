@@ -40,10 +40,10 @@ data$longitude <- as.numeric(data$longitude)
 data$date <- strptime(data$date, format = "%Y-%m-%d %H:%M:%S")
 
 # Add a month column to the data frame
-data$month <- as.numeric(format(data$date, "%m"))
+data$month <- as.integer(format(data$date, "%m"))
 
 # Add a week column to the data frame
-data$week <- as.numeric(format(data$date, "%W"))
+data$week <- as.integer(format(data$date, "%W"))
 
 #  [1] "Utilisation d'une ceinture de sécurité "
 #  [2] "Utilisation d'un casque "
