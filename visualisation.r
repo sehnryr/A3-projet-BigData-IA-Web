@@ -71,3 +71,22 @@ ggplot(data_city, aes(x = reorder(ville, -count), y = count)) +
   labs(title = "Accidents by city", x = "City", y = "Count") +
   theme(plot.title = element_text(hjust = 0.5)) +
   theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1))
+
+data$age <- 2009 - as.integer(sample$an_nais)
+#crée un histogramme à partir en fonction du nombre d'accident par tranche d'age
+hist(data$age, main = "Histogramme du nombre d'accident par année de naissance", xlab = "Année de naissance", ylab = "Nombre d'accidents")
+
+accidentparmois <- list(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+
+# Calcul du nombre d'accidents par mois
+for (i in 1:12) {
+  AccidentparMois <- data[data$month == i,]
+  nbAccident <- nrow(AccidentparMois)
+  accidentparmois[[i]] <- nbAccident
+}
+
+barplot(unlist(accidentparmois), 
+        names.arg = c("Jan", "Fév", "Mar", "Avr", "Mai", "Juin", "Juil", "Août", "Sep", "Oct", "Nov", "Déc"),
+        xlab = "Mois",
+        ylab = "Nombre d'accidents",
+        main = "Nombre d'accidents par mois")
