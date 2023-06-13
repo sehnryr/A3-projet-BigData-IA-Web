@@ -3,7 +3,7 @@
 
 # Load the preparation.r script to read and prepare data for use
 source("preparation.r")
-source("visualisation.r")
+source("visualisation/main.r")
 
 library(vcd)
 library(ggplot2)
