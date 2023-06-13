@@ -97,7 +97,7 @@ data_month$month_name <- c(
   "January",
   "February",
   "March",
-  "April",
+  "April", 
   "May",
   "June",
   "July",
