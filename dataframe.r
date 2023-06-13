@@ -1,3 +1,5 @@
+source("preparation.r")
+
 insee <- read.csv("correspondance-code-insee-code-postal.csv", sep = ";")
 print
 insee <- insee[, c("CodeINSEE", "CodeRégion")]
@@ -8,8 +10,7 @@ region <- read.csv("region2009.csv")
 
 population <- read.csv("population.csv")
 # => Nom région / population
-
-sample <- read.csv("output.csv")
+sample <- data
 sample <- sample[, c("id_code_insee", "descr_grav")]
 # => Code insée / gravité
 
@@ -29,6 +30,6 @@ colnames(sample_insee_region) <- c("Région", "Gravité", "Nombre")
 sample_insee_region_population <- merge(sample_insee_region, population, by.x = "Région", by.y = "population_region")
 
 sample_insee_region_population$NbAccident <- sample_insee_region_population$Nombre / sample_insee_region_population$population * 100000
-sample_insee_region_population <- sample_insee_region_population[, c("Région", "Gravité", "NbAccidentPour100000")]
+sample_insee_region_population <- sample_insee_region_population[, c("Région", "Gravité", "NbAccident")]
 
 write.csv(sample_insee_region_population, "dataframeACP.csv", row.names = FALSE, quote=F)
