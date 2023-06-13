@@ -1,14 +1,14 @@
 source("preparation.r")
 
-insee <- read.csv("correspondance-code-insee-code-postal.csv", sep = ";")
+insee <- read.csv("datasets/correspondance-code-insee-code-postal.csv", sep = ";")
 print
 insee <- insee[, c("CodeINSEE", "CodeRégion")]
 # => Code insée / code région
 
-region <- read.csv("region2009.csv")
+region <- read.csv("datasets/region2009.csv")
 # => Code région / nom région
 
-population <- read.csv("population.csv")
+population <- read.csv("datasets/population.csv")
 # => Nom région / population
 sample <- data
 sample <- sample[, c("id_code_insee", "descr_grav")]
