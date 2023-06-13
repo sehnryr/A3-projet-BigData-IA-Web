@@ -22,7 +22,7 @@ data$place <- as.numeric(data$place)
 data$place[is.na(data$place)] <- median(data$place, na.rm = TRUE)
 
 # Replace the latitude and longitude values with the values of laposte_hexasmal.csv file
-laposte_hexasmal <- read.csv("laposte_hexasmal.csv", header = TRUE, sep = ";")
+laposte_hexasmal <- read.csv("datasets/laposte_hexasmal.csv", header = TRUE, sep = ";")
 # Split coordonnees_geographiques column into latitude and longitude columns
 laposte_hexasmal$latitude <- as.numeric(sapply(strsplit(as.character(laposte_hexasmal$coordonnees_geographiques), ","), head, 1))
 laposte_hexasmal$longitude <- as.numeric(sapply(strsplit(as.character(laposte_hexasmal$coordonnees_geographiques), ","), tail, 1))
