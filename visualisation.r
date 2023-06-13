@@ -74,7 +74,7 @@ ggplot(data_city, aes(x = reorder(ville, -count), y = count)) +
   theme(plot.title = element_text(hjust = 0.5)) +
   theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1))
 
-data$age <- 2009 - as.integer(sample$an_nais)
+data$age <- 2009 - as.integer(data$an_nais)
 #crée un histogramme à partir en fonction du nombre d'accident par tranche d'age
 hist(data$age, main = "Histogramme du nombre d'accident par année de naissance", xlab = "Année de naissance", ylab = "Nombre d'accidents")
 
@@ -130,6 +130,40 @@ france$count <- data_region$count[match(france$code_region, data_region$code_reg
 # Plot the map
 ggplot(france, aes(x=long, y=lat, group=group, fill=count)) +
   labs(title = "Accidents by region", x = "Longitude", y = "Latitude") +
+  geom_polygon(colour="black") +
+  coord_map("mercator") +
+  scale_fill_gradient(low="blue",high="red")
+
+# Severe accidents rate per department
+data_severe <- data %>%
+  group_by(code_departement) %>%
+  summarise(count = n(), severe = sum(descr_grav == 3 | descr_grav == 4))
+
+data_severe$rate <- data_severe$severe / data_severe$count
+
+# Merge the data with the department names
+france$rate <- data_severe$rate[match(france$code_departement, data_severe$code_departement)]
+
+# Plot the map
+ggplot(france, aes(x=long, y=lat, group=group, fill=rate)) +
+  labs(title = "Severe accidents rate by department", x = "Longitude", y = "Latitude") +
+  geom_polygon(colour="black") +
+  coord_map("mercator") +
+  scale_fill_gradient(low="blue",high="red")
+
+# Severe accidents rate per region
+data_severe <- data %>%
+  group_by(code_region) %>%
+  summarise(count = n(), severe = sum(descr_grav == 3 | descr_grav == 4))
+
+data_severe$rate <- data_severe$severe / data_severe$count
+
+# Merge the data with the region names
+france$rate <- data_severe$rate[match(france$code_region, data_severe$code_region)]
+
+# Plot the map
+ggplot(france, aes(x=long, y=lat, group=group, fill=rate)) +
+  labs(title = "Severe accidents rate by region", x = "Longitude", y = "Latitude") +
   geom_polygon(colour="black") +
   coord_map("mercator") +
   scale_fill_gradient(low="blue",high="red")
