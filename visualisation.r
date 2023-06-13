@@ -17,7 +17,7 @@ data_atmospheric_condition <- data %>%
 ggplot(data_atmospheric_condition, aes(x = descr_athmo, y = count)) +
   geom_bar(stat = "identity", fill = "steelblue") +
   geom_text(aes(label = count), vjust = -0.3, size = 3.5) +
-  labs(title = "Accidents by atmospheric condition", x = "Atmospheric condition", y = "Count") +
+  labs(title = "Accidents en fonction des conditions atmosphériques", x = "Condition atmosphérique", y = "Accidents") +
   theme(plot.title = element_text(hjust = 0.5)) +
   theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1)) +
   scale_x_discrete(labels = setNames(names(valeur_descr_athmo), valeur_descr_athmo))
@@ -30,7 +30,7 @@ data_surface_condition <- data %>%
 ggplot(data_surface_condition, aes(x = descr_etat_surf, y = count)) +
   geom_bar(stat = "identity", fill = "steelblue") +
   geom_text(aes(label = count), vjust = -0.3, size = 3.5) +
-  labs(title = "Accidents by surface condition", x = "Surface condition", y = "Count") +
+  labs(title = "Accidents en fonction de la description de la surface", x = "Description de la surface", y = "Accidents") +
   theme(plot.title = element_text(hjust = 0.5)) +
   theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1)) +
   scale_x_discrete(labels = setNames(names(valeurs_descr_etat_surf), valeurs_descr_etat_surf))
@@ -43,7 +43,7 @@ data_gravity <- data %>%
 ggplot(data_gravity, aes(x = descr_grav, y = count)) +
   geom_bar(stat = "identity", fill = "steelblue") +
   geom_text(aes(label = count), vjust = -0.3, size = 3.5) +
-  labs(title = "Accidents by gravity", x = "Gravity", y = "Count") +
+  labs(title = "Accidents selon la gravité", x = "Gravity", y = "Accidents") +
   theme(plot.title = element_text(hjust = 0.5)) +
   theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1)) +
   scale_x_discrete(labels = setNames(names(valeurs_descr_grav), valeurs_descr_grav))
@@ -57,7 +57,7 @@ data_hour <- data %>%
 ggplot(data_hour, aes(x = hour, y = count)) +
   geom_bar(stat = "identity", fill = "steelblue") +
   geom_text(aes(label = count), vjust = -0.3, size = 3.5) +
-  labs(title = "Accidents by hour", x = "Hour", y = "Count") +
+  labs(title = "Accidents par tranches d'heures", x = "Heure", y = "Accidents") +
   theme(plot.title = element_text(hjust = 0.5)) +
   theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1))
 
@@ -73,7 +73,7 @@ data_city <- data_city[1:20,]
 ggplot(data_city, aes(x = reorder(ville, -count), y = count)) +
   geom_bar(stat = "identity", fill = "steelblue") +
   geom_text(aes(label = count), vjust = -0.3, size = 3.5) +
-  labs(title = "Accidents by city", x = "City", y = "Count") +
+  labs(title = "Accidents par ville (20 premières villes)", x = "Ville", y = "Accidents") +
   theme(plot.title = element_text(hjust = 0.5)) +
   theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1))
 
@@ -85,7 +85,7 @@ data_age$age <- as.numeric(data_age$age - (2023 - 2009))
 
 ggplot(data_age, aes(x = age, y = count)) +
   geom_bar(stat = "identity", fill = "steelblue") +
-  labs(title = "Accidents by age", x = "Age", y = "Count") +
+  labs(title = "Accidents par tranche d'age", x = "Age", y = "Accidents") +
   theme(plot.title = element_text(hjust = 0.5)) +
   theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1))
 
@@ -94,24 +94,24 @@ data_month <- data %>%
   group_by(month) %>%
   summarise(count = n())
 data_month$month_name <- c(
-  "January",
-  "February",
-  "March",
-  "April",
-  "May",
-  "June",
-  "July",
-  "August",
-  "September",
-  "October",
-  "November",
-  "December"
+  "Janvier",
+  "Février",
+  "Mars",
+  "Avril",
+  "Mai",
+  "Juin",
+  "Juillet",
+  "Août",
+  "Septembre",
+  "Octobre",
+  "Novembre",
+  "Décembre"
 )[data_month$month]
 
 ggplot(data_month, aes(x = reorder(month_name, month), y = count)) +
   geom_bar(stat = "identity", fill = "steelblue") +
   geom_text(aes(label = count), vjust = -0.3, size = 3.5) +
-  labs(title = "Accidents by month", x = "Month", y = "Count") +
+  labs(title = "Accidents par tranche de mois", x = "Mois", y = "Accidents") +
   theme(plot.title = element_text(hjust = 0.5)) +
   theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1))
 
@@ -134,7 +134,7 @@ france$count <- data_departement$count[match(france$code_departement, data_depar
 
 # Plot the map
 ggplot(france, aes(x=long, y=lat, group=group, fill=count)) +
-  labs(title = "Accidents by department", x = "Longitude", y = "Latitude") +
+  labs(title = "Accidents par départements", x = "Longitude", y = "Latitude") +
   geom_polygon(colour="black") +
   coord_map("mercator") +
   scale_fill_gradient(low="blue",high="red")
@@ -151,7 +151,7 @@ france$count <- data_region$count[match(france$code_region, data_region$code_reg
 
 # Plot the map
 ggplot(france, aes(x=long, y=lat, group=group, fill=count)) +
-  labs(title = "Accidents by region", x = "Longitude", y = "Latitude") +
+  labs(title = "Accidents par région", x = "Longitude", y = "Latitude") +
   geom_polygon(colour="black") +
   coord_map("mercator") +
   scale_fill_gradient(low="blue",high="red")
@@ -168,7 +168,7 @@ france$rate <- data_severe$rate[match(france$code_departement, data_severe$code_
 
 # Plot the map
 ggplot(france, aes(x=long, y=lat, group=group, fill=rate)) +
-  labs(title = "Severe accidents rate by department", x = "Longitude", y = "Latitude") +
+  labs(title = "Taux d'accident grave par département", x = "Longitude", y = "Latitude") +
   geom_polygon(colour="black") +
   coord_map("mercator") +
   scale_fill_gradient(low="blue",high="red", limits = c(0, 1))
@@ -185,7 +185,7 @@ france$rate <- data_severe$rate[match(france$code_region, data_severe$code_regio
 
 # Plot the map
 ggplot(france, aes(x=long, y=lat, group=group, fill=rate)) +
-  labs(title = "Severe accidents rate by region", x = "Longitude", y = "Latitude") +
+  labs(title = "Taux d'accident grave par région", x = "Longitude", y = "Latitude") +
   geom_polygon(colour="black") +
   coord_map("mercator") +
   scale_fill_gradient(low="blue",high="red", limits = c(0, 1))
