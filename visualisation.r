@@ -149,7 +149,7 @@ ggplot(france, aes(x=long, y=lat, group=group, fill=rate)) +
   labs(title = "Severe accidents rate by department", x = "Longitude", y = "Latitude") +
   geom_polygon(colour="black") +
   coord_map("mercator") +
-  scale_fill_gradient(low="blue",high="red")
+  scale_fill_gradient(low="blue",high="red", limits = c(0, 1))
 
 # Severe accidents rate per region
 data_severe <- data %>%
@@ -166,4 +166,4 @@ ggplot(france, aes(x=long, y=lat, group=group, fill=rate)) +
   labs(title = "Severe accidents rate by region", x = "Longitude", y = "Latitude") +
   geom_polygon(colour="black") +
   coord_map("mercator") +
-  scale_fill_gradient(low="blue",high="red")
+  scale_fill_gradient(low="blue",high="red", limits = c(0, 1))
