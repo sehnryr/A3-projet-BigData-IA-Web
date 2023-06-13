@@ -6,6 +6,8 @@ source("preparation.r")
 # Load the libraries
 suppressPackageStartupMessages(library(dplyr)) # for data manipulation
 suppressPackageStartupMessages(library(ggplot2)) # for plotting graphs
+suppressPackageStartupMessages(library(ggmap)) # for plotting maps
+suppressPackageStartupMessages(library(mapproj)) # for scaling maps
 
 # Number of accidents per atmospheric condition
 data_atmospheric_condition <- data %>%
@@ -90,3 +92,44 @@ barplot(unlist(accidentparmois),
         xlab = "Mois",
         ylab = "Nombre d'accidents",
         main = "Nombre d'accidents par mois")
+
+# Retrieve the department names with the corresponding code because the map_data
+# function does not provide the department codes
+departements <- read.csv("datasets/v_departement_2023.csv", header = TRUE, sep = ",")
+departements$NCC <- gsub(" ", "", departements$NCC)
+
+# Number of accidents per department
+data$code_departement <- substr(data$id_code_insee, 1, 2)
+data_departement <- data %>%
+  group_by(code_departement) %>%
+  summarise(count = n())
+
+# Merge the data with the department names
+france <- map_data("france")
+france$region <- gsub(" ", "", gsub("-", "", toupper(france$region)))
+france$code_departement <- departements$DEP[match(france$region, departements$NCC)]
+france$count <- data_departement$count[match(france$code_departement, data_departement$code_departement)]
+
+# Plot the map
+ggplot(france, aes(x=long, y=lat, group=group, fill=count)) +
+  labs(title = "Accidents by department", x = "Longitude", y = "Latitude") +
+  geom_polygon(colour="black") +
+  coord_map("mercator") +
+  scale_fill_gradient(low="blue",high="red")
+
+# Number of accidents per region
+data$code_region <- departements$REG[match(data$code_departement, departements$DEP)]
+data_region <- data %>%
+  group_by(code_region) %>%
+  summarise(count = n())
+
+# Merge the data with the region names
+france$code_region <- departements$REG[match(france$region, departements$NCC)]
+france$count <- data_region$count[match(france$code_region, data_region$code_region)]
+
+# Plot the map
+ggplot(france, aes(x=long, y=lat, group=group, fill=count)) +
+  labs(title = "Accidents by region", x = "Longitude", y = "Latitude") +
+  geom_polygon(colour="black") +
+  coord_map("mercator") +
+  scale_fill_gradient(low="blue",high="red")
