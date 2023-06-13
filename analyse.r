@@ -3,12 +3,12 @@
 
 # Load the preparation.r script to read and prepare data for use
 source("preparation.r")
+source("visualisation.r")
 library(vcd)
 library(ggplot2)
 
-data$departement <- 
 
-variable <- c("departement", "descr_cat_veh", "descr_agglo", "descr_athmo", "descr_lum", "descr_etat_surf", "description_intersection", "tranche_age", "place", "descr_dispo_secu", "descr_grav", "descr_motif_traj", "descr_type_col", "month", "week")
+variable <- c("code_departement", "descr_cat_veh", "descr_agglo", "descr_athmo", "descr_lum", "descr_etat_surf", "description_intersection", "tranche_age", "place", "descr_dispo_secu", "descr_grav", "descr_motif_traj", "descr_type_col", "month", "week", "hour")
 
 # Parcourir toutes les combinaisons de variables
 for(i in 1:length(variable))
@@ -23,10 +23,27 @@ for(i in 1:length(variable))
             png(paste("mosaic_plots/", variable[i], "_", variable[j], ".png"))
             mosaicplot(data[,variable[i]] ~ data[, variable[j]], shade = TRUE, las = 1, main = "Mosaic plot des résidus de notre Chi²", xlab = variable[i], ylab = variable[j])
             dev.off()
-            print(variable[i])
-            print(variable[j])
+
+            # Chemin et nom de fichier de sortie
+            chemin_fichier <- paste("resultat_chi2/", variable[i], "_", variable[j], ".txt")
+
+            # Créer le fichier vide
+            file.create(chemin_fichier)
+
+            # Effectuer le test du chi2
+            chi2 <- chisq.test(data$code_departement, data$descr_cat_veh)
+
+            # Rediriger la sortie vers le fichier
+            sink(chemin_fichier)
+
+            # Afficher les résultats du test
             print(chi2)
-            print("------------------------------------")
+
+            # Rétablir la sortie par défaut
+            sink()
         }
     }
 }
+
+
+
