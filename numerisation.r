@@ -239,4 +239,4 @@ valeurs_descr_type_col <- c(
 sample$descr_type_col <- factor(sample$descr_type_col, levels = names(valeurs_descr_type_col), labels = valeurs_descr_type_col)
 
 # Écrire les données dans le fichier CSV
-write.csv(sample, file = "output.csv")
+write.csv(sample, file = "output.csv", row.names = FALSE, quote=F)
