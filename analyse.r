@@ -20,7 +20,10 @@ for(i in 1:length(variable))
     {
         for(j in (i+1):length(variable))
         {
-            chi2 <- chisq.test(data[, variable[i]], data[, variable[j]])
+            suppressWarnings({
+                chi2 <- chisq.test(data[, variable[i]], data[, variable[j]])
+            })
+
             
             # Generate the mosaic plot
             png(paste("mosaic_plots/", variable[i], "_", variable[j], ".png"))
@@ -32,10 +35,7 @@ for(i in 1:length(variable))
 
             # Créer le fichier vide
             file.create(chemin_fichier)
-
-            # Effectuer le test du chi2
-            chi2 <- chisq.test(data$code_departement, data$descr_cat_veh)
-
+        
             # Rediriger la sortie vers le fichier
             sink(chemin_fichier)
 
