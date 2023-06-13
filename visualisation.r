@@ -74,7 +74,7 @@ ggplot(data_city, aes(x = reorder(ville, -count), y = count)) +
   theme(plot.title = element_text(hjust = 0.5)) +
   theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1))
 
-data$age <- 2009 - as.integer(sample$an_nais)
+data$age <- 2009 - as.integer(data$an_nais)
 #crée un histogramme à partir en fonction du nombre d'accident par tranche d'age
 hist(data$age, main = "Histogramme du nombre d'accident par année de naissance", xlab = "Année de naissance", ylab = "Nombre d'accidents")
 
