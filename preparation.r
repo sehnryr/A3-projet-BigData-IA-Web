@@ -24,11 +24,15 @@ data$place[is.na(data$place)] <- median(data$place, na.rm = TRUE)
 # Replace the latitude and longitude values with the values of laposte_hexasmal.csv file
 laposte_hexasmal <- read.csv("datasets/laposte_hexasmal.csv", header = TRUE, sep = ";")
 # Split coordonnees_geographiques column into latitude and longitude columns
-laposte_hexasmal$latitude <- as.numeric(sapply(strsplit(as.character(laposte_hexasmal$coordonnees_geographiques), ","), head, 1))
-laposte_hexasmal$longitude <- as.numeric(sapply(strsplit(as.character(laposte_hexasmal$coordonnees_geographiques), ","), tail, 1))
+laposte_hexasmal$latitude <- as.numeric(sapply(strsplit(
+  as.character(laposte_hexasmal$coordonnees_geographiques), ","), head, 1))
+laposte_hexasmal$longitude <- as.numeric(sapply(strsplit(
+  as.character(laposte_hexasmal$coordonnees_geographiques), ","), tail, 1))
 
-data$latitude <- laposte_hexasmal$latitude[match(data$id_code_insee, laposte_hexasmal$code_commune_insee)]
-data$longitude <- laposte_hexasmal$longitude[match(data$id_code_insee, laposte_hexasmal$code_commune_insee)]
+data$latitude <- laposte_hexasmal$latitude[
+  match(data$id_code_insee, laposte_hexasmal$code_commune_insee)]
+data$longitude <- laposte_hexasmal$longitude[
+  match(data$id_code_insee, laposte_hexasmal$code_commune_insee)]
 
 # Convert columns to numeric
 data$Num_Acc <- as.numeric(data$Num_Acc)
@@ -80,7 +84,11 @@ valeurs_descr_dispo_secu <- c(
 )
 
 # Remplacer les valeurs par leurs valeurs numériques attribuées
-data$descr_dispo_secu <- factor(data$descr_dispo_secu, levels = names(valeurs_descr_dispo_secu), labels = valeurs_descr_dispo_secu)
+data$descr_dispo_secu <- factor(
+  data$descr_dispo_secu,
+  levels = names(valeurs_descr_dispo_secu),
+  labels = valeurs_descr_dispo_secu
+)
 
 #  [1] "PL seul > 7,5T"
 #  [2] "VU seul 1,5T <= PTAC <= 3,5T avec ou sans remorque "
@@ -136,14 +144,21 @@ valeurs_descr_cat_veh <- c(
 )
 
 # Remplacer les valeurs par leurs numéros associés
-data$descr_cat_veh <- factor(data$descr_cat_veh, levels = names(valeurs_descr_cat_veh), labels = valeurs_descr_cat_veh)
+data$descr_cat_veh <- factor(
+  data$descr_cat_veh,
+  levels = names(valeurs_descr_cat_veh),
+  labels = valeurs_descr_cat_veh
+)
 
 # [1] "Indemne"
 # [2] "Tué"
 # [3] "Blessé hospitalisé"
 # [4] "Blessé léger
 
-data$descr_grav <- factor(data$descr_grav, levels = unique(data$descr_grav))
+data$descr_grav <- factor(
+  data$descr_grav,
+  levels = unique(data$descr_grav)
+)
 
 valeurs_descr_grav <- c(
   "Indemne" = 1,
@@ -152,7 +167,11 @@ valeurs_descr_grav <- c(
   "Tué" = 4
 )
 
-data$descr_grav <- factor(data$descr_grav, levels = names(valeurs_descr_grav), labels = valeurs_descr_grav)
+data$descr_grav <- factor(
+  data$descr_grav,
+  levels = names(valeurs_descr_grav),
+  labels = valeurs_descr_grav
+)
 
 # [1] "Hors agglomération"
 # [2] "En agglomération"
@@ -162,7 +181,11 @@ valeur_descr_agglo <- c(
   "En agglomération" = 2
 )
 
-data$descr_agglo <- factor(data$descr_agglo, levels = names(valeur_descr_agglo), labels = valeur_descr_agglo)
+data$descr_agglo <- factor(
+  data$descr_agglo,
+  levels = names(valeur_descr_agglo),
+  labels = valeur_descr_agglo
+)
 
 # [1] "Brouillard – fumée"
 # [2] "Neige – grêle"
@@ -186,7 +209,11 @@ valeur_descr_athmo <- c(
     "Vent fort – tempête" = 9
 )
 
-data$descr_athmo <- factor(data$descr_athmo, levels = names(valeur_descr_athmo), labels = valeur_descr_athmo)
+data$descr_athmo <- factor(
+  data$descr_athmo,
+  levels = names(valeur_descr_athmo),
+  labels = valeur_descr_athmo
+)
 
 # [1] "Crépuscule ou aube"
 # [2] "Plein jour"
@@ -202,7 +229,11 @@ valeur_descr_lum <- c(
     "Nuit avec éclairage public non allumé" = 5
 )
 
-data$descr_lum <- factor(data$descr_lum, levels = names(valeur_descr_lum), labels = valeur_descr_lum)
+data$descr_lum <- factor(
+  data$descr_lum,
+  levels = names(valeur_descr_lum),
+  labels = valeur_descr_lum
+)
 
 # [1] "Verglacée"
 # [2] "Enneigée"
@@ -226,7 +257,11 @@ valeurs_descr_etat_surf <- c(
     "Inondée" = 9
 )
 
-data$descr_etat_surf <- factor(data$descr_etat_surf, levels = names(valeurs_descr_etat_surf), labels = valeurs_descr_etat_surf)
+data$descr_etat_surf <- factor(
+  data$descr_etat_surf,
+  levels = names(valeurs_descr_etat_surf),
+  labels = valeurs_descr_etat_surf
+)
  
 # [1] "Hors intersection"                 "Intersection en X"
 # [3] "Giratoire"                         "Intersection en T"
@@ -246,7 +281,11 @@ valeurs_description_intersection <- c(
     "Place" = 9
 )
 
-data$description_intersection <- factor(data$description_intersection, levels = names(valeurs_description_intersection), labels = valeurs_description_intersection)
+data$description_intersection <- factor(
+  data$description_intersection,
+  levels = names(valeurs_description_intersection),
+  labels = valeurs_description_intersection
+)
 
 # [1] "Utilisation professionnelle" "Promenade – loisirs"        
 # [3] "Domicile – travail"          "Domicile – école"
@@ -261,7 +300,11 @@ valeurs_descr_motif_traj <- c(
     "Autre" = 6
 )
 
-data$descr_motif_traj <- factor(data$descr_motif_traj, levels = names(valeurs_descr_motif_traj), labels = valeurs_descr_motif_traj)
+data$descr_motif_traj <- factor(
+  data$descr_motif_traj,
+  levels = names(valeurs_descr_motif_traj),
+  labels = valeurs_descr_motif_traj
+)
 
 # [1] "Deux véhicules - Frontale"
 # [2] "Deux véhicules – Par l’arrière"
@@ -281,4 +324,8 @@ valeurs_descr_type_col <- c(
     "Sans collision" = 7
 )
 
-data$descr_type_col <- factor(data$descr_type_col, levels = names(valeurs_descr_type_col), labels = valeurs_descr_type_col)
+data$descr_type_col <- factor(
+  data$descr_type_col,
+  levels = names(valeurs_descr_type_col),
+  labels = valeurs_descr_type_col
+)
