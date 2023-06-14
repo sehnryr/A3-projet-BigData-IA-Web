@@ -24,20 +24,16 @@ for(i in 1:length(variable))
                 chi2 <- chisq.test(data[, variable[i]], data[, variable[j]])
             })
 
-            
             # Generate the mosaic plot
             png(paste("mosaic_plots/", variable[i], "_", variable[j], ".png"))
             mosaicplot(data[,variable[i]] ~ data[, variable[j]], shade = TRUE, las = 1, main = "Mosaic plot des résidus de notre Chi²", xlab = variable[i], ylab = variable[j])
             dev.off()
 
-            # Chemin et nom de fichier de sortie
-            chemin_fichier <- paste("resultat_chi2/", variable[i], "_", variable[j], ".txt")
-
             # Créer le fichier vide
-            file.create(chemin_fichier)
-        
+            file.create(paste("resultat_chi2/", variable[i], "_", variable[j], ".txt"))
+            
             # Rediriger la sortie vers le fichier
-            sink(chemin_fichier)
+            sink(paste("resultat_chi2/", variable[i], "_", variable[j], ".txt"))
 
             # Afficher les résultats du test
             print(chi2)
