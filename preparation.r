@@ -3,6 +3,12 @@
 # Load the read.r script to read the data
 source("read.r")
 
+# Load the libraries
+suppressPackageStartupMessages(library(dplyr)) # for data manipulation
+suppressPackageStartupMessages(library(ggplot2)) # for plotting graphs
+suppressPackageStartupMessages(library(ggmap)) # for plotting maps
+suppressPackageStartupMessages(library(mapproj)) # for scaling maps
+
 # Convert "Null" values to NA
 data[data == "NULL"] <- NA
 

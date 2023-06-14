@@ -1,12 +1,6 @@
 # Load the preparation.r script to prepare the data
 source("preparation.r")
 
-# Load the libraries
-suppressPackageStartupMessages(library(dplyr)) # for data manipulation
-suppressPackageStartupMessages(library(ggplot2)) # for plotting graphs
-suppressPackageStartupMessages(library(ggmap)) # for plotting maps
-suppressPackageStartupMessages(library(mapproj)) # for scaling maps
-
 # Number of accidents per atmospheric condition
 source("visualisation/graph_acc_atmo.r")
 
