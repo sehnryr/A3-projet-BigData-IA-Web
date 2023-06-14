@@ -1,5 +1,4 @@
 # Number of accidents per hour
-data$hour <- as.numeric(format(data$date, "%H"))
 data_hour <- data %>%
   group_by(hour) %>%
   summarise(count = n())
