@@ -95,6 +95,7 @@ data$descr_dispo_secu <- factor(
   levels = names(valeurs_descr_dispo_secu),
   labels = valeurs_descr_dispo_secu
 )
+data$descr_dispo_secu <- as.integer(data$descr_dispo_secu)
 
 #  [1] "PL seul > 7,5T"
 #  [2] "VU seul 1,5T <= PTAC <= 3,5T avec ou sans remorque "
@@ -155,16 +156,12 @@ data$descr_cat_veh <- factor(
   levels = names(valeurs_descr_cat_veh),
   labels = valeurs_descr_cat_veh
 )
+data$descr_cat_veh <- as.integer(data$descr_cat_veh)
 
 # [1] "Indemne"
 # [2] "Tué"
 # [3] "Blessé hospitalisé"
 # [4] "Blessé léger
-
-data$descr_grav <- factor(
-  data$descr_grav,
-  levels = unique(data$descr_grav)
-)
 
 valeurs_descr_grav <- c(
   "Indemne" = 1,
@@ -178,6 +175,7 @@ data$descr_grav <- factor(
   levels = names(valeurs_descr_grav),
   labels = valeurs_descr_grav
 )
+data$descr_grav <- as.integer(data$descr_grav)
 
 # [1] "Hors agglomération"
 # [2] "En agglomération"
@@ -192,6 +190,7 @@ data$descr_agglo <- factor(
   levels = names(valeur_descr_agglo),
   labels = valeur_descr_agglo
 )
+data$descr_agglo <- as.integer(data$descr_agglo)
 
 # [1] "Brouillard – fumée"
 # [2] "Neige – grêle"
@@ -220,6 +219,7 @@ data$descr_athmo <- factor(
   levels = names(valeur_descr_athmo),
   labels = valeur_descr_athmo
 )
+data$descr_athmo <- as.integer(data$descr_athmo)
 
 # [1] "Crépuscule ou aube"
 # [2] "Plein jour"
@@ -240,6 +240,7 @@ data$descr_lum <- factor(
   levels = names(valeur_descr_lum),
   labels = valeur_descr_lum
 )
+data$descr_lum <- as.integer(data$descr_lum)
 
 # [1] "Verglacée"
 # [2] "Enneigée"
@@ -268,6 +269,7 @@ data$descr_etat_surf <- factor(
   levels = names(valeurs_descr_etat_surf),
   labels = valeurs_descr_etat_surf
 )
+data$descr_etat_surf <- as.integer(data$descr_etat_surf)
  
 # [1] "Hors intersection"                 "Intersection en X"
 # [3] "Giratoire"                         "Intersection en T"
@@ -292,6 +294,7 @@ data$description_intersection <- factor(
   levels = names(valeurs_description_intersection),
   labels = valeurs_description_intersection
 )
+data$description_intersection <- as.integer(data$description_intersection)
 
 # [1] "Utilisation professionnelle" "Promenade – loisirs"        
 # [3] "Domicile – travail"          "Domicile – école"
@@ -311,6 +314,7 @@ data$descr_motif_traj <- factor(
   levels = names(valeurs_descr_motif_traj),
   labels = valeurs_descr_motif_traj
 )
+data$descr_motif_traj <- as.integer(data$descr_motif_traj)
 
 # [1] "Deux véhicules - Frontale"
 # [2] "Deux véhicules – Par l’arrière"
@@ -335,6 +339,10 @@ data$descr_type_col <- factor(
   levels = names(valeurs_descr_type_col),
   labels = valeurs_descr_type_col
 )
+data$descr_type_col <- as.integer(data$descr_type_col)
+
+# Create a new column with the hour of the accident
+data$hour <- as.numeric(format(data$date, "%H"))
 
 # Retrieve the department names with the corresponding code because the map_data
 # function does not provide the department codes
