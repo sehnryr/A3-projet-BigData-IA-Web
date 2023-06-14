@@ -329,3 +329,12 @@ data$descr_type_col <- factor(
   levels = names(valeurs_descr_type_col),
   labels = valeurs_descr_type_col
 )
+
+# Retrieve the department names with the corresponding code because the map_data
+# function does not provide the department codes
+departements <- read.csv("datasets/v_departement_2023.csv", header = TRUE, sep = ",")
+departements$NCC <- gsub(" ", "", departements$NCC)
+
+# Add departement code and region code to data
+data$code_departement <- substr(data$id_code_insee, 1, 2)
+data$code_region <- departements$REG[match(data$code_departement, departements$DEP)]

@@ -1,5 +1,4 @@
 # Number of accidents per region
-data$code_region <- departements$REG[match(data$code_departement, departements$DEP)]
 data_region <- data %>%
   group_by(code_region) %>%
   summarise(count = n())

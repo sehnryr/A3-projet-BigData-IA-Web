@@ -28,11 +28,6 @@ source("visualisation/graph_acc_age.r")
 # Number of accidents per month
 source("visualisation/graph_acc_month.r")
 
-# Retrieve the department names with the corresponding code because the map_data
-# function does not provide the department codes
-departements <- read.csv("datasets/v_departement_2023.csv", header = TRUE, sep = ",")
-departements$NCC <- gsub(" ", "", departements$NCC)
-
 # Get France map data and merge it with the department names
 # and the region names
 france <- map_data("france")

@@ -1,5 +1,4 @@
 # Number of accidents per department
-data$code_departement <- substr(data$id_code_insee, 1, 2)
 data_departement <- data %>%
   group_by(code_departement) %>%
   summarise(count = n())
