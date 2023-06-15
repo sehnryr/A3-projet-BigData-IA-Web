@@ -55,6 +55,9 @@ data$month <- as.integer(format(data$date, "%m"))
 # Add a week column to the data frame
 data$week <- as.integer(format(data$date, "%W"))
 
+# Add a weekday column to the data frame
+data$day <- as.integer(format(data$date, "%u"))
+
 #  [1] "Utilisation d'une ceinture de sécurité "
 #  [2] "Utilisation d'un casque "
 #  [3] "Présence d'une ceinture de sécurité - Utilisation non déterminable"
