@@ -18,6 +18,7 @@ data_month$count <- cumsum(data_month$count)
 lm_data_month <- lm(count ~ month, data = data_month)
 print(summary(lm_data_month))
 
+
 # Same as before but according to weeks instead of months
 data_week <- data %>%
   group_by(week) %>%
@@ -65,6 +66,39 @@ cat(
   confidence_interval_week,
   "\n"
 )
+
+#Visualisation of cumulative sum
+
+# Create the month names
+data_month$month_name <- c(
+  "Janvier",
+  "Février",
+  "Mars",
+  "Avril",
+  "Mai",
+  "Juin",
+  "Juillet",
+  "Août",
+  "Septembre",
+  "Octobre",
+  "Novembre",
+  "Décembre"
+)[data_month$month]
+
+# Create the graph
+g <- ggplot(data_month, aes(x = reorder(month_name, month), y = count)) +
+  geom_point() +
+  labs(
+    title = "Somme cumulative des accidents par tranche de mois",
+    x = "Mois",
+    y = "Accidents"
+  ) +
+  theme(plot.title = element_text(hjust = 0.5)) +
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1))
+
+# Save the graph to png
+ggsave(g, file="export/graph_acc_month_cum.png", width = 7, height = 7, dpi = 300)
+
 
 
 
