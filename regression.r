@@ -10,6 +10,8 @@ data_month <- data %>%
   group_by(month) %>%
   summarise(count = n())
 
+print(mean(data_month$count))
+
 # Make the cumulative sum of the counts to have a linear correlation between time and count
 data_month$count <- cumsum(data_month$count)
 
@@ -50,7 +52,6 @@ cat(
   standard_errors_week,
   "\n"
 )
-
 
 # Calculation of 95% confidence intervals of estimators
 confidence_interval_month <- confint(lm_data_month)
@@ -98,6 +99,13 @@ g <- ggplot(data_month, aes(x = reorder(month_name, month), y = count)) +
 
 # Save the graph to png
 ggsave(g, file="export/graph_acc_month_cum.png", width = 7, height = 7, dpi = 300)
+
+# Prediction using linear regression for months
+new_month <- data.frame(month = 13)
+prediction <- predict(lm_data_month, new_data = new_month)
+
+
+
 
 
 
