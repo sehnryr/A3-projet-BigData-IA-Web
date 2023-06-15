@@ -1,24 +1,24 @@
 # Desccription : Calculate linear regressions on the evolution of number of accidents per month 
 # and per week 
 
-#Load the preparation.r file to have the data processed
+# Load the preparation.r file to have the data processed
 source("preparation.r")
 
 
-#Prepare a dataframe with the count of accidents sorted by month
+# Prepare a dataframe with the count of accidents sorted by month
 data_month <- data %>%
   group_by(month) %>%
   summarise(count = n())
 
-#Make the cumulative sum of the counts to have a linear correlation between time and count
+# Make the cumulative sum of the counts to have a linear correlation between time and count
 data_month$count <- cumsum(data_month$count)
 
-#Calculate the linear regression between cumulative count according to the months an then print the
-#details 
+# Calculate the linear regression between cumulative count according to the months an then print the
+# details 
 lm_data_month <- lm(count ~ month, data = data_month)
 print(summary(lm_data_month))
 
-#Same as before but according to weeks instead of months
+# Same as before but according to weeks instead of months
 data_week <- data %>%
   group_by(week) %>%
   summarise(count = n())
@@ -27,3 +27,49 @@ data_week$count <- cumsum(data_week$count)
 
 lm_data_week <- lm(count ~ week, data = data_week)
 print(summary(lm_data_week))
+
+# Regression performance analysis
+r_squared_month <- summary(lm_data_month)$r.squared
+r_squared_week <- summary(lm_data_week)$r.squared
+
+cat("R² pour les mois : ",r_squared_month, "\n")
+cat("R² pour les semaines : ",r_squared_week, "\n")
+
+# Analysis of standard errors associated with estimators
+standard_errors_month <- summary(lm_data_month)$coefficients[, "Std. Error"]
+standard_errors_week <- summary(lm_data_week)$coefficients[, "Std. Error"]
+
+cat(
+  "Erreurs types associées au estimateurs pour les mois : ",
+  standard_errors_month,
+  "\n"
+)
+cat(
+  "Erreurs types associées au estimateurs pour les semaines : ",
+  standard_errors_week,
+  "\n"
+)
+
+
+# Calculation of 95% confidence intervals of estimators
+confidence_interval_month <- confint(lm_data_month)
+confidence_interval_week <- confint(lm_data_week)
+
+cat(
+  "Intervalles de confiance pour les estimateurs (mois) : ",
+  confidence_interval_month,
+  "\n"
+)
+cat(
+  "Intervalles de confiance pour les estimateurs (semaines) : ",
+  confidence_interval_week,
+  "\n"
+)
+
+
+
+
+
+
+
+
