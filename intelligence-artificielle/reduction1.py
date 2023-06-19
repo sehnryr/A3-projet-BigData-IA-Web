@@ -3,8 +3,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
 
-# Charger le fichier CSV dans un DataFrame pandas
-data = pd.read_csv("export_IA.csv")
+from read import data
 
 # Calculer la matrice de corrélation entre les attributs
 corr_matrix = data.corr()

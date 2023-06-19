@@ -1,18 +1,9 @@
-import os
-
-import pandas as pd
 import matplotlib.pyplot as plt
 import numpy as np
 from sklearn.cluster import KMeans
 from sklearn.metrics import normalized_mutual_info_score
 
-# Recupération du chemin du dossier courant
-# (le dossier contenant le fichier main.py)
-current_path = os.path.dirname(os.path.realpath(__file__))
-
-# Lecture du fichier CSV exporté depuis le projet Big Data
-data = pd.read_csv(f"{current_path}/export_IA.csv")
-
+from read import data
 
 # Fonction de calcul des k-means à la main
 def k_means_scratch(X, n_clusters=4, n_init=10, max_iter=300, random_state=0):

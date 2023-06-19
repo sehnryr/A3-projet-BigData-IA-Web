@@ -4,8 +4,7 @@ import matplotlib.pyplot as plt
 from sklearn.decomposition import PCA
 from sklearn.preprocessing import StandardScaler
 
-# Charger le fichier CSV dans un DataFrame pandas
-data = pd.read_csv("export_IA.csv")
+from read import data
 
 # Supprimer toutes les lignes contenant des valeurs NaN
 data.dropna(inplace=True)
