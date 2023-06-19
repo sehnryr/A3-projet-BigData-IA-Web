@@ -40,4 +40,4 @@ export <- export %>% rename_at('hour', ~ 'heure')
 export <- export %>% rename_at('age', ~ 'age')
 export <- export %>% rename_at('place', ~ 'place')
 
-write.csv(export, "export.csv", quote = FALSE, row.names = FALSE)
+write.csv(export, "export_IA.csv", quote = FALSE, row.names = FALSE)
