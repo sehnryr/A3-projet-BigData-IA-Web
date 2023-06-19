@@ -23,7 +23,7 @@ for x, y in paire:
 # Afficher les paires d'attributs fortement corrélées
 for pair in forte_correlation:
     # On supprime la variable la moins corrélée avec la gravité
-    corr_gravite = abs(corr_matrix.loc[pair[0], 'gravite']), abs(corr_matrix.loc[pair[1], 'gravite'])
+    corr_gravite = abs(corr_matrix.loc[pair[0], 'descr_grav']), abs(corr_matrix.loc[pair[1], 'descr_grav'])
     if corr_gravite[0] < corr_gravite[1]:
         variable_suppr = pair[0]
         print(pair[0])
