@@ -1,8 +1,14 @@
+import os
+
 import pandas as pd
 
 if __name__ == "__main__":
+    # Recupération du chemin du dossier courant
+    # (le dossier contenant le fichier main.py)
+    current_path = os.path.dirname(os.path.realpath(__file__))
+
     # Lecture du fichier CSV exporté depuis le projet Big Data
-    data = pd.read_csv("export_IA.csv")
+    data = pd.read_csv(f"{current_path}/export_IA.csv")
 
     # Les valeurs cible sont les valeurs de gravité d'un accident.
     # Il y a 4 valeurs possibles : 1, 2, 3 et 4.
