@@ -20,19 +20,23 @@ for x, y in paire:
     if x != y and x < y:
         forte_correlation.append((corr_matrix.index[x], corr_matrix.columns[y]))
 
+print(forte_correlation)
 # Afficher les paires d'attributs fortement corrélées
+
+variable_suppr = []
 for pair in forte_correlation:
-    # On supprime la variable la moins corrélée avec la gravité
-    corr_gravite = abs(corr_matrix.loc[pair[0], 'descr_grav']), abs(corr_matrix.loc[pair[1], 'descr_grav'])
-    if corr_gravite[0] < corr_gravite[1]:
-        variable_suppr = pair[0]
-        print(pair[0])
-    else:
-        variable_suppr = pair[1]
-        print(pair[1])
+    if pair[0] not in variable_suppr and pair[1] not in variable_suppr:
+        corr_gravite = abs(corr_matrix.loc[pair[0], 'descr_grav']), abs(corr_matrix.loc[pair[1], 'descr_grav'])
+        if corr_gravite[0] < corr_gravite[1]:
+            variable_suppr.append(pair[0])
+            print(pair[0])
+        else:
+            variable_suppr.append(pair[1])
+            print(pair[1])
 
 # Supprimer les caractéristiques sélectionnées du DataFrame
 data_reduced = data.drop(columns=variable_suppr)
+
 
 # Afficher toutes les colonnes de data_reduced
 print(data_reduced.columns)
