@@ -1,6 +1,7 @@
 import os
 
 import pandas as pd
+import matplotlib.pyplot as plt
 
 if __name__ == "__main__":
     # Recupération du chemin du dossier courant
@@ -27,3 +28,13 @@ if __name__ == "__main__":
 
     # On affiche la taille des features (nombre de colonnes)
     print("Nombre de features :", len(data.columns))
+
+    # Graphique du nombre d'instances pour chaque niveau de gravité
+    plt.bar(
+        ["Sans gravité", "Léger", "Grave", "Mortel"],
+        data["gravite"].value_counts().values,
+    )
+    plt.title("Nombre d'instances pour chaque niveau de gravité")
+    plt.xlabel("Gravité")
+    plt.ylabel("Nombre d'instances")
+    plt.savefig(f"{current_path}/export/graph_acc_gravite.png")
