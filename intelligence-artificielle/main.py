@@ -38,3 +38,6 @@ if __name__ == "__main__":
     plt.xlabel("Gravité")
     plt.ylabel("Nombre d'instances")
     plt.savefig(f"{current_path}/export/graph_acc_gravite.png")
+
+    # Conversion de la colonne date en datetime
+    data["date"] = pd.to_datetime(data["date"])
