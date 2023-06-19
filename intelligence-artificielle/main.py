@@ -15,7 +15,7 @@ if __name__ == "__main__":
     # Il y a 4 valeurs possibles : 1, 2, 3 et 4.
     # 1 correspond à un accident sans gravité, 2 à un accident léger,
     # 3 à un accident grave et 4 à un accident mortel.
-    print("Valeurs cible :", data["gravite"].unique())
+    print("Valeurs cible :", data["descr_grav"].unique())
 
     # On affiche le nombre d'instances du dataset (nombre de lignes)
     print("Nombre d'instances :", len(data))
@@ -23,7 +23,7 @@ if __name__ == "__main__":
     # On affiche le nombre d'instances du dataset pour chaque valeur de gravité
     print(
         "Nombre d'instances pour chaque valeur de gravité :",
-        data["gravite"].value_counts().to_dict(),
+        data["descr_grav"].value_counts().to_dict(),
     )
 
     # On affiche la taille des features (nombre de colonnes)
@@ -32,7 +32,7 @@ if __name__ == "__main__":
     # Graphique du nombre d'instances pour chaque niveau de gravité
     plt.bar(
         ["Sans gravité", "Léger", "Grave", "Mortel"],
-        data["gravite"].value_counts().values,
+        data["descr_grav"].value_counts().values,
     )
     plt.title("Nombre d'instances pour chaque niveau de gravité")
     plt.xlabel("Gravité")
