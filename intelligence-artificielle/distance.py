@@ -20,6 +20,13 @@ def euclidean_distance(x, y):
     return np.sqrt(np.sum((x - y) ** 2))
 
 
+# Minkowski distance between two points x and y
+# (generalization of Euclidean and Manhattan distances)
+# https://en.wikipedia.org/wiki/Minkowski_distance
+def minkowski_distance(x, y, p=2):
+    return np.sum(np.abs(x - y) ** p) ** (1 / p)
+
+
 # Haversine distance between two points x and y (great-circle distance)
 # https://en.wikipedia.org/wiki/Haversine_formula
 def haversine_distance(x, y):
