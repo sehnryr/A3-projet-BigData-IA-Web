@@ -2,8 +2,6 @@ from sklearn.metrics import accuracy_score
 from sklearn.neighbors import KNeighborsClassifier
 from statistics import mode
 
-from read import data
-from repartition import *
 from distance import *
 
 
@@ -48,6 +46,9 @@ def knn_sklearn(X_train, y_train, k=5):
 
 
 if __name__ == "__main__":
+    from read import data
+    from repartition import *
+
     data = data[
         [
             "latitude",
@@ -65,7 +66,7 @@ if __name__ == "__main__":
     data = data.groupby("descr_grav").apply(lambda x: x.sample(frac=0.1))
 
     for data_train, data_test in repartition_leave_one_out_sklearn(data):
-    # for data_train, data_test in repartition_holdout_sklearn(data):
+        # for data_train, data_test in repartition_holdout_sklearn(data):
         X_train = data_train.drop(columns=["descr_grav"])
         y_train = data_train["descr_grav"]
 
