@@ -7,19 +7,6 @@ from repartition import *
 from distance import *
 
 
-data = data[
-    [
-        "latitude",
-        "longitude",
-        "descr_athmo",
-        "descr_lum",
-        "descr_etat_surf",
-        "descr_dispo_secu",
-        "descr_grav",
-    ]
-]
-
-
 class KNeighborsClassifierScratch:
     def __init__(self, n_neighbors=5, dist_metric=manhattan_distance):
         self.n_neighbors = n_neighbors
@@ -61,6 +48,18 @@ def knn_sklearn(X_train, y_train, k=5):
 
 
 if __name__ == "__main__":
+    data = data[
+        [
+            "latitude",
+            "longitude",
+            "descr_athmo",
+            "descr_lum",
+            "descr_etat_surf",
+            "descr_dispo_secu",
+            "descr_grav",
+        ]
+    ]
+
     for data_train, data_test in repartition_holdout_scratch(data):
         X_train = data_train.drop(columns=["descr_grav"])
         y_train = data_train["descr_grav"]
