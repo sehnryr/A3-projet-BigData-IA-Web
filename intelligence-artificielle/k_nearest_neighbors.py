@@ -1,5 +1,6 @@
 from sklearn.metrics import accuracy_score
 from sklearn.neighbors import KNeighborsClassifier
+from statistics import mode
 
 from read import data
 from repartition import *
@@ -24,21 +25,25 @@ class KNeighborsClassifierScratch:
         self.n_neighbors = n_neighbors
         self.dist_metric = dist_metric
 
-    def most_common(self, lst):
-        """Retourne la valeur la plus fréquente d'une liste"""
-        return max(set(lst), key=lst.count)
-
     def fit(self, X_train, y_train):
         self.X_train = X_train
         self.y_train = y_train
 
     def predict(self, X_test):
+        # Liste des voisins les plus proches pour chaque point de test
         neighbors = []
+
+        # Parcours de tous les points de test
         for x in X_test.values:
+            # Calcul des distances entre le point de test et tous les points d'entrainement
             distances = self.dist_metric(x, self.X_train)
+            # Tri des distances par ordre croissant
             y_sorted = [y for _, y in sorted(zip(distances, self.y_train))]
+            # Ajout des k plus proches voisins
             neighbors.append(y_sorted[: self.n_neighbors])
-        return [self.most_common(n) for n in neighbors]
+
+        # Retourne le mode de chaque liste de voisins
+        return [mode(n) for n in neighbors]
 
 
 # Classifieur KNN manuel
