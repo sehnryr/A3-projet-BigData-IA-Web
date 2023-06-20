@@ -10,9 +10,10 @@ corr_matrix = data.corr()
 print(corr_matrix)
 
 # Définir une valeur seuil de corrélation à partir de laquelle une paire d'attributs est considérée comme fortement corrélée
-seuil_correlation = 0.8
+seuil_correlation = 0.5
 
-paire = np.where(np.abs(corr_matrix) > seuil_correlation)
+paire = np.where((np.abs(corr_matrix) > seuil_correlation))
+
 paire = list(zip(paire[0], paire[1]))
 
 forte_correlation = []
