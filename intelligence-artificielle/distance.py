@@ -7,7 +7,7 @@ def hamming_distance(x, y):
     (nombre de positions où les symboles correspondants sont différents)
     https://en.wikipedia.org/wiki/Hamming_distance
     """
-    return np.sum(x != y)
+    return np.sum(x != y, axis=1)
 
 
 def manhattan_distance(x, y):
@@ -16,7 +16,7 @@ def manhattan_distance(x, y):
     (somme des valeurs absolues)
     https://en.wikipedia.org/wiki/Taxicab_geometry
     """
-    return np.sum(np.abs(x - y))
+    return np.sum(np.abs(x - y), axis=1)
 
 
 def euclidean_distance(x, y):
@@ -25,7 +25,7 @@ def euclidean_distance(x, y):
     (racine carrée de la somme des carrés)
     https://en.wikipedia.org/wiki/Euclidean_distance
     """
-    return np.sqrt(np.sum((x - y) ** 2))
+    return np.sqrt(np.sum((x - y) ** 2, axis=1))
 
 
 def minkowski_distance(x, y, p=2):
@@ -34,7 +34,7 @@ def minkowski_distance(x, y, p=2):
     (généralisation des distances Euclidienne et Manhattan)
     https://en.wikipedia.org/wiki/Minkowski_distance
     """
-    return np.sum(np.abs(x - y) ** p) ** (1 / p)
+    return np.sum(np.abs(x - y) ** p, axis=1) ** (1 / p)
 
 
 def haversine_distance(x, y):
