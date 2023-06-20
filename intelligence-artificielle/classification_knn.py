@@ -65,8 +65,8 @@ if __name__ == "__main__":
     # pour chaque label
     data = data.groupby("descr_grav").apply(lambda x: x.sample(frac=0.1))
 
-    for data_train, data_test in repartition_leave_one_out_sklearn(data):
-        # for data_train, data_test in repartition_holdout_sklearn(data):
+    # for data_train, data_test in repartition_leave_one_out_sklearn(data):
+    for data_train, data_test in repartition_holdout_sklearn(data):
         X_train = data_train.drop(columns=["descr_grav"])
         y_train = data_train["descr_grav"]
 
@@ -74,12 +74,23 @@ if __name__ == "__main__":
         y_test = data_test["descr_grav"]
 
         knn = knn_sklearn(X_train, y_train, k=15)
-        print("SciKit-Learn", round(accuracy_score(y_test, knn.predict(X_test)), 4))
+        knn_score = accuracy_score(y_test, knn.predict(X_test))
+        print("SciKit-Learn", round(knn_score, 4))
 
         knn_hamming = knn_scratch(X_train, y_train, k=15, dist_metric=hamming_distance)
-        print(
-            "Scratch Hamming",
-            round(accuracy_score(y_test, knn_hamming.predict(X_test)), 4),
-        )
+        knn_hamming_score = accuracy_score(y_test, knn_hamming.predict(X_test))
+        print("Scratch Hamming", round(knn_hamming_score, 4))
+
+        knn_manhattan = knn_scratch(X_train, y_train, k=15, dist_metric=manhattan_distance)
+        knn_manhattan_score = accuracy_score(y_test, knn_manhattan.predict(X_test))
+        print("Scratch Manhattan", round(knn_manhattan_score, 4))
+
+        knn_euclidean = knn_scratch(X_train, y_train, k=15, dist_metric=euclidean_distance)
+        knn_euclidean_score = accuracy_score(y_test, knn_euclidean.predict(X_test))
+        print("Scratch Euclidean", round(knn_euclidean_score, 4))
+
+        knn_minkowski = knn_scratch(X_train, y_train, k=15, dist_metric=minkowski_distance)
+        knn_minkowski_score = accuracy_score(y_test, knn_minkowski.predict(X_test))
+        print("Scratch Minkowski", round(knn_minkowski_score, 4))
 
         break
