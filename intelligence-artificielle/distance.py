@@ -1,6 +1,13 @@
 import numpy as np
 
 
+# Hamming distance between two points x and y
+# (number of positions at which the corresponding symbols are different)
+# https://en.wikipedia.org/wiki/Hamming_distance
+def hamming_distance(x, y):
+    return np.sum(x != y)
+
+
 # Manhattan distance between two points x and y (sum of absolute values)
 # https://en.wikipedia.org/wiki/Taxicab_geometry
 def manhattan_distance(x, y):
