@@ -60,7 +60,12 @@ if __name__ == "__main__":
         ]
     ]
 
-    for data_train, data_test in repartition_holdout_scratch(data):
+    # Reduction de la taille de data en prenant 10% de chaque classe
+    # pour chaque label
+    data = data.groupby("descr_grav").apply(lambda x: x.sample(frac=0.1))
+
+    for data_train, data_test in repartition_leave_one_out_sklearn(data):
+    # for data_train, data_test in repartition_holdout_sklearn(data):
         X_train = data_train.drop(columns=["descr_grav"])
         y_train = data_train["descr_grav"]
 
