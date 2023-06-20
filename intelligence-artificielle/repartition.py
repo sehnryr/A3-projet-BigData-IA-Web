@@ -1,7 +1,5 @@
 from sklearn.model_selection import LeaveOneOut, train_test_split
 
-from read import data
-
 # Répartition des données en base d'apprentissage et base de test via
 # l'algorithme holdout (5 fois) avec une implémentation manuelle
 def repartition_holdout_scratch(data, train_size=0.8, test_size=0.2):
