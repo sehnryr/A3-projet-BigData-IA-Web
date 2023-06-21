@@ -1,34 +1,46 @@
 import sys
-import numpy as np
-from sklearn.cluster import KMeans
+import pandas as pd
+from sklearn.model_selection import train_test_split
+from sklearn.neighbors import KNeighborsClassifier
+from sklearn.metrics import accuracy_score
+import json
+# Récupérer les arguments de la ligne de commande
+code_region = sys.argv[1]
+descr_athmo = sys.argv[2]
+descr_lum = sys.argv[3]
+descr_etat_surf = sys.argv[4]
+descr_dispo_secu = sys.argv[5]
+csv_filename = sys.argv[6]
 
-# Charger les coordonnées de latitude et de longitude de l'accident à partir des arguments en ligne de commande
-latitude = float(sys.argv[1])
-longitude = float(sys.argv[2])
+# Charger les données
+data = pd.read_csv(csv_filename)
 
-# Calculer le nombre de clusters
-num_clusters = (len(sys.argv) - 3) // 2
+data.dropna(inplace=True)
 
-# Charger les coordonnées des centroides des clusters à partir des arguments en ligne de commande
-centroids = []
-for i in range(num_clusters):
-    centroid_lat = float(sys.argv[i*2 + 3])
-    centroid_lon = float(sys.argv[i*2 + 4])
-    centroids.append([centroid_lat, centroid_lon])
+selected_columns = ["code_region", "descr_athmo", "descr_lum", "descr_etat_surf", "descr_dispo_secu"]
+X = data[selected_columns]
+y = data['descr_grav']
 
-# Effectuer le clustering en utilisant l'algorithme K-means
-kmeans = KMeans(n_clusters=num_clusters, init=np.array(centroids))
-kmeans.fit([]) # car un seul accident
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2) # 20% des données pour le test
 
-# Prédire le cluster d'appartenance de l'accident
-accident = [[latitude, longitude]]
-cluster_label = kmeans.predict(accident)
+# Entraîner le modèle KNN
+model = KNeighborsClassifier(n_neighbors=15)
+model.fit(X_train, y_train)
 
-# Conversion du résultat en format JSON
-result = {'cluster_label': cluster_label}
+# Préparer les données de l'accident donné en entrée
+new_accident = pd.DataFrame([[code_region, descr_athmo, descr_lum, descr_etat_surf, descr_dispo_secu]], columns=selected_columns)
+
+y_pred = model.predict(new_accident)
+
+print("Prédiction de la grabité de l'accident:", y_pred)
+
+# Évaluer les performances du modèle
+y_pred_test = model.predict(X_test)
+accuracy = accuracy_score(y_test, y_pred_test)
+print("Précision du modèle:", accuracy)
 
 # Écriture du résultat au format JSON dans un fichier
 with open('result.json', 'w') as json_file:
-    json.dump(result, json_file)
+    json.dump(y_pred.tolist(), json_file)
 
 print("Résultat enregistré dans le fichier 'result.json'.")
