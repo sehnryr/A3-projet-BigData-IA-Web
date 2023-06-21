@@ -22,7 +22,7 @@ class KNeighborsClassifierScratch:
         for x in X_test.values:
             # Calcul des distances entre le point de test et tous les points d'entrainement
             distances = self.dist_metric(x, self.X_train)
-            # Tri des distances par ordre croissant
+            # Tri des gravités par distance croissante
             y_sorted = [y for _, y in sorted(zip(distances, self.y_train))]
             # Ajout des k plus proches voisins
             neighbors.append(y_sorted[: self.n_neighbors])
