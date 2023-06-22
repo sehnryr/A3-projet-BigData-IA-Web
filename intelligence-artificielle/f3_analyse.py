@@ -6,22 +6,10 @@ if __name__ == "__main__":
     from f3_classification_3_algos import *
     from f3_repartition import *
     from utils import current_path
-    from f1_preparation_data import data
+    from f2_reduction import data
 
     CPU_COUNT = multiprocessing.cpu_count()
     ALLOWED_CORES = CPU_COUNT - 1 if CPU_COUNT > 1 else 1
-
-    data = data[
-        [
-            "latitude",
-            "longitude",
-            "descr_athmo",
-            "descr_lum",
-            "descr_etat_surf",
-            "descr_dispo_secu",
-            "descr_grav",
-        ]
-    ]
 
     # Reduction de la taille de data en prenant 10% de chaque classe
     # pour chaque label

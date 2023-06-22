@@ -131,21 +131,9 @@ def clf_mlp_best_params(X_train, y_train) -> MLPClassifier:
 
 
 # if __name__ == "__main__":
-#     from read import data
+#     from f2_reduction import data
 #     from f3_repartition import *
 #     from time import time
-
-#     data = data[
-#         [
-#             "latitude",
-#             "longitude",
-#             "descr_athmo",
-#             "descr_lum",
-#             "descr_etat_surf",
-#             "descr_dispo_secu",
-#             "descr_grav",
-#         ]
-#     ]
 
 #     # Reduction de la taille de data en prenant 10% de chaque classe
 #     # pour chaque label
@@ -237,20 +225,8 @@ if __name__ == "__main__":
     plt.close()
 
 # if __name__ == "__main__":
-#     from read import data
+#     from f2_reduction import data
 #     from f3_repartition import *
-
-#     data = data[
-#         [
-#             "latitude",
-#             "longitude",
-#             "descr_athmo",
-#             "descr_lum",
-#             "descr_etat_surf",
-#             "descr_dispo_secu",
-#             "descr_grav",
-#         ]
-#     ]
 
 #     # Reduction de la taille de data en prenant 10% de chaque classe
 #     # pour chaque label
