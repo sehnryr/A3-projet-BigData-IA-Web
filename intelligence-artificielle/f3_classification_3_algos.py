@@ -4,7 +4,6 @@ from sklearn.model_selection import GridSearchCV
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.neural_network import MLPClassifier
 from sklearn.svm import SVC
-from statistics import mean
 import joblib
 import multiprocessing
 
@@ -24,7 +23,7 @@ def svm_grid_search(X_train, y_train) -> GridSearchCV:
     clf_svm = SVC(probability=True)
     param_grid_svm = {
         "C": [1, 3, 5, 7, 11],
-        "gamma": ["auto", 1, 0.5, 0.1, 0.05],
+        "gamma": [1, 0.5, 0.1, 0.05, 0.001],
         "kernel": ["rbf", "sigmoid"],
     }
     grid_svm = GridSearchCV(
@@ -49,7 +48,7 @@ def rf_grid_search(X_train, y_train) -> GridSearchCV:
     clf_rf = RandomForestClassifier()
     param_grid_rf = {
         "n_estimators": [50, 100, 150, 200, 250, 300, 350, 400],
-        "max_depth": [None, 5, 10, 15, 20, 25, 30, 35, 40],
+        "max_depth": [5, 10, 15, 20, 25, 30, 35, 40],
         "max_features": ["sqrt", "log2", None],
     }
     grid_rf = GridSearchCV(
@@ -73,9 +72,9 @@ def mlp_grid_search(X_train, y_train) -> GridSearchCV:
     """Retourne les meilleurs paramètres pour le classifieur MLP"""
     clf_mlp = MLPClassifier()
     param_grid_mlp = {
-        "hidden_layer_sizes": [(100,), (100, 100), (100, 100, 100)],
+        "hidden_layer_sizes": [(50,), (100,), (50, 50,), (100, 100,), (50, 50, 50,), (100, 100, 100,)],
         "activation": ["identity", "logistic", "tanh", "relu"],
-        "solver": ["lbfgs", "sgd", "adam"],
+        "solver": ["sgd", "adam"],
     }
     grid_mlp = GridSearchCV(
         clf_mlp,
@@ -189,7 +188,7 @@ if __name__ == "__main__":
 
     # Recuperation des paramètres donnés aux gridsearch
     params_svm = gs_svm.cv_results_["params"]
-    params_rf = gs_rm.cv_results_["params"]
+    params_rf = gs_rf.cv_results_["params"]
     params_mlp = gs_mlp.cv_results_["params"]
 
     # On recupere les scores moyens pour les paramètres "C" et "gamma" du SVM
@@ -210,7 +209,7 @@ if __name__ == "__main__":
     plt.yticks(np.arange(len(grid_param_C)), grid_param_C)
     plt.colorbar()
 
-    scores_avg = round(np.mean(score_avg), 3)
+    scores_avg = round((np.max(score_avg) + np.min(score_avg)) / 2, 3)
     for (j, i), label in np.ndenumerate(score_avg):
         plt.text(
             i,
@@ -221,7 +220,76 @@ if __name__ == "__main__":
             color="white" if label < scores_avg else "black",
         )
 
-    plt.show()
+    plt.savefig(f"{current_path}/export/gridsearch_svm.png")
+    plt.close()
+
+    # On recupere les scores moyens pour les paramètres "n_estimators" et "max_depth" du RF
+    grid_param_n_estimators = np.unique([d["n_estimators"] for d in params_rf])
+    grid_param_max_depth = np.unique([d["max_depth"] for d in params_rf])
+    score_avg = gs_rf.cv_results_["mean_test_score"]
+    score_avg = score_avg[gs_rf.cv_results_["param_max_features"] == None]
+    score_avg = np.array(score_avg).reshape(
+        len(grid_param_n_estimators),
+        len(grid_param_max_depth),
+    )
+
+    plt.imshow(score_avg, cmap=plt.get_cmap("viridis"))
+    plt.title("RF\nscore moyen avec max_features=None")
+    plt.xlabel("max_depth")
+    plt.ylabel("n_estimators")
+    plt.xticks(np.arange(len(grid_param_max_depth)), grid_param_max_depth)
+    plt.yticks(np.arange(len(grid_param_n_estimators)), grid_param_n_estimators)
+    plt.colorbar()
+
+    scores_avg = round((np.max(score_avg) + np.min(score_avg)) / 2, 3)
+    for (j, i), label in np.ndenumerate(score_avg):
+        plt.text(
+            i,
+            j,
+            round(label, 3),
+            ha="center",
+            va="center",
+            color="white" if label < scores_avg else "black",
+        )
+
+    plt.savefig(f"{current_path}/export/gridsearch_rf.png")
+    plt.close()
+
+    # On recupere les scores moyens pour les paramètres "hidden_layer_sizes" et "activation" du MLP
+    set_hidden_layer_sizes = set([d["hidden_layer_sizes"] for d in params_mlp])
+    grid_param_hidden_layer_sizes = []
+    for d in params_mlp:
+        if d["hidden_layer_sizes"] in set_hidden_layer_sizes:
+            grid_param_hidden_layer_sizes.append(d["hidden_layer_sizes"])
+            set_hidden_layer_sizes.remove(d["hidden_layer_sizes"])
+    grid_param_activation = np.unique([d["activation"] for d in params_mlp])
+    score_avg = gs_mlp.cv_results_["mean_test_score"]
+    score_avg = score_avg[gs_mlp.cv_results_["param_solver"] == "adam"]
+    score_avg = np.array(score_avg).reshape(
+        len(grid_param_hidden_layer_sizes),
+        len(grid_param_activation),
+    )
+
+    plt.imshow(score_avg, cmap=plt.get_cmap("viridis"))
+    plt.title("MLP\nscore moyen avec solver=adam")
+    plt.xlabel("activation")
+    plt.ylabel("hidden_layer_sizes")
+    plt.xticks(np.arange(len(grid_param_activation)), grid_param_activation)
+    plt.yticks(np.arange(len(grid_param_hidden_layer_sizes)), grid_param_hidden_layer_sizes)
+    plt.colorbar()
+
+    scores_avg = round((np.max(score_avg) + np.min(score_avg)) / 2, 3)
+    for (j, i), label in np.ndenumerate(score_avg):
+        plt.text(
+            i,
+            j,
+            round(label, 3),
+            ha="center",
+            va="center",
+            color="white" if label < scores_avg else "black",
+        )
+
+    plt.savefig(f"{current_path}/export/gridsearch_mlp.png")
     plt.close()
 
 # if __name__ == "__main__":
@@ -239,3 +307,5 @@ if __name__ == "__main__":
 #     y_train = data_train["descr_grav"]
 
 #     svm_grid_search(X_train, y_train)
+#     rf_grid_search(X_train, y_train)
+#     mlp_grid_search(X_train, y_train)
