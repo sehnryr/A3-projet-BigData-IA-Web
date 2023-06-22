@@ -8,7 +8,7 @@ from statistics import mean
 import joblib
 import multiprocessing
 
-from read import current_path
+from utils import current_path
 
 
 CPU_COUNT = multiprocessing.cpu_count()

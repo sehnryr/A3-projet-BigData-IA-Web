@@ -5,7 +5,8 @@ if __name__ == "__main__":
 
     from f3_classification_3_algos import *
     from f3_repartition import *
-    from read import data, current_path
+    from utils import current_path
+    from f1_preparation_data import data
 
     CPU_COUNT = multiprocessing.cpu_count()
     ALLOWED_CORES = CPU_COUNT - 1 if CPU_COUNT > 1 else 1

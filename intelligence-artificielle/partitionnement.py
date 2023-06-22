@@ -21,7 +21,7 @@ def k_means_sklearn(X, n_clusters=4, n_init=10, max_iter=300, random_state=0):
 if __name__ == "__main__":
     import matplotlib.pyplot as plt
 
-    from read import data
+    from f1_preparation_data import data
 
     # Preparation des données pour le clustering
     # Recuperation des longitudes et latitudes par gravité d'accident

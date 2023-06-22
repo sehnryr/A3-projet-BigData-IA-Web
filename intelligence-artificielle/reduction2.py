@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 from sklearn.decomposition import PCA
 from sklearn.preprocessing import StandardScaler
 
-from read import data
+from f1_preparation_data import data
 
 # Supprimer toutes les lignes contenant des valeurs NaN
 data.dropna(inplace=True)

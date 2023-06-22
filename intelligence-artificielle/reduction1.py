@@ -3,7 +3,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
 
-from read import data
+from f1_preparation_data import data
 
 # Calculer la matrice de corrélation entre les attributs
 corr_matrix = data.corr()
