@@ -48,7 +48,7 @@ def haversine_distance(x, y):
     y = np.radians(y)
 
     # Extraction des latitudes et longitudes
-    x_lat, x_lon = x[:, 0], x[:, 1]
+    x_lat, x_lon = x[0], x[1]
     y_lat, y_lon = y[:, 0], y[:, 1]
 
     # Calcul des distances
