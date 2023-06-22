@@ -1,7 +1,7 @@
 import pandas as pd
 import matplotlib.pyplot as plt
 
-from read import data
+from read import data, current_path
 
 if __name__ == "__main__":
     # Les valeurs cible sont les valeurs de gravité d'un accident.
