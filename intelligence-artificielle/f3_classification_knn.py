@@ -47,7 +47,7 @@ def knn_sklearn(X_train, y_train, k=5):
 
 if __name__ == "__main__":
     from read import data
-    from repartition import *
+    from f3_repartition import *
     from time import time
 
     data = data[
