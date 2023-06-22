@@ -56,13 +56,16 @@ if __name__ == "__main__":
 
     # Stockage des scores pour chaque classifieur et chaque métrique pour
     # faire des moyennes
-    scores = {
-        "sklearn": [],
-        "scratch-hamming": [],
-        "scratch-manhattan": [],
-        "scratch-euclidean": [],
-        "scratch-minkowski": [],
-    }
+    k_scores = [[[] for _ in range(5)] for _ in range(5)]
+
+    k_values = [1, 5, 10, 15, 20]
+    clf_values = [
+        "sklearn",
+        "scratch-hamming",
+        "scratch-manhattan",
+        "scratch-euclidean",
+        "scratch-minkowski",
+    ]
 
     # Compte du nombre de folds
     i = 0
@@ -81,28 +84,55 @@ if __name__ == "__main__":
         X_test = data_test.drop(columns=["descr_grav"])
         y_test = data_test["descr_grav"]
 
-        knn = knn_sklearn(X_train, y_train, k=15)
-        knn_score = accuracy_score(y_test, knn.predict(X_test))
-        scores["sklearn"].append(knn_score)
+        for k in k_values:
+            knn = knn_sklearn(X_train, y_train, k=k)
+            knn_score = accuracy_score(y_test, knn.predict(X_test))
+            k_scores[0][i - 1].append(knn_score)
 
-        knn_hamming = knn_scratch(X_train, y_train, k=15, dist_metric=hamming_distance)
-        knn_hamming_score = accuracy_score(y_test, knn_hamming.predict(X_test))
-        scores["scratch-hamming"].append(knn_hamming_score)
+            knn_hamming = knn_scratch(X_train, y_train, k=k, dist_metric=hamming_distance)
+            knn_hamming_score = accuracy_score(y_test, knn_hamming.predict(X_test))
+            k_scores[1][i - 1].append(knn_hamming_score)
 
-        knn_manhattan = knn_scratch(X_train, y_train, k=15, dist_metric=manhattan_distance)
-        knn_manhattan_score = accuracy_score(y_test, knn_manhattan.predict(X_test))
-        scores["scratch-manhattan"].append(knn_manhattan_score)
+            knn_manhattan = knn_scratch(X_train, y_train, k=k, dist_metric=manhattan_distance)
+            knn_manhattan_score = accuracy_score(y_test, knn_manhattan.predict(X_test))
+            k_scores[2][i - 1].append(knn_manhattan_score)
 
-        knn_euclidean = knn_scratch(X_train, y_train, k=15, dist_metric=euclidean_distance)
-        knn_euclidean_score = accuracy_score(y_test, knn_euclidean.predict(X_test))
-        scores["scratch-euclidean"].append(knn_euclidean_score)
+            knn_euclidean = knn_scratch(X_train, y_train, k=k, dist_metric=euclidean_distance)
+            knn_euclidean_score = accuracy_score(y_test, knn_euclidean.predict(X_test))
+            k_scores[3][i - 1].append(knn_euclidean_score)
 
-        knn_minkowski = knn_scratch(X_train, y_train, k=15, dist_metric=minkowski_distance)
-        knn_minkowski_score = accuracy_score(y_test, knn_minkowski.predict(X_test))
-        scores["scratch-minkowski"].append(knn_minkowski_score)
+            knn_minkowski = knn_scratch(X_train, y_train, k=k, dist_metric=minkowski_distance)
+            knn_minkowski_score = accuracy_score(y_test, knn_minkowski.predict(X_test))
+            k_scores[4][i - 1].append(knn_minkowski_score)
 
-    print("SciKit-Learn:", round(mean(scores["sklearn"]), 4))
-    print("Scratch Hamming:", round(mean(scores["scratch-hamming"]), 4))
-    print("Scratch Manhattan:", round(mean(scores["scratch-manhattan"]), 4))
-    print("Scratch Euclidean:", round(mean(scores["scratch-euclidean"]), 4))
-    print("Scratch Minkowski:", round(mean(scores["scratch-minkowski"]), 4))
+    # k_scores_mean = [[0.518479293957909, 0.4719076714188731, 0.4940122199592668, 0.4913509843856076, 0.4913509843856076], [0.518479293957909, 0.4719076714188731, 0.4940122199592668, 0.4913509843856076, 0.4913509843856076], [0.518479293957909, 0.4719076714188731, 0.4940122199592668, 0.4913509843856076, 0.4913509843856076], [0.518479293957909, 0.4719076714188731, 0.4940122199592668, 0.4913509843856076, 0.4913509843856076], [0.518479293957909, 0.4719076714188731, 0.4940122199592668, 0.4913509843856076, 0.4913509843856076]]
+
+    k_scores_mean = [[mean(d) for d in k_score] for k_score in k_scores]
+
+    print(k_scores_mean)
+
+    import matplotlib.pyplot as plt
+
+    from utils import current_path
+
+    plt.imshow(k_scores_mean, cmap=plt.get_cmap("viridis"))
+    plt.title("Score moyen pour chaque classifieur et k")
+    plt.xlabel("k")
+    plt.xticks(range(len(k_values)), k_values)
+    plt.yticks(range(len(clf_values)), clf_values)
+    plt.colorbar()
+    plt.tight_layout()
+
+    scores_avg = round((np.max(k_scores_mean) + np.min(k_scores_mean)) / 2, 3)
+    for (j, i), label in np.ndenumerate(k_scores_mean):
+        plt.text(
+            i,
+            j,
+            round(label, 3),
+            ha="center",
+            va="center",
+            color="white" if label < scores_avg else "black",
+        )
+
+    plt.savefig(f"{current_path}/export/knn_scores.png")
+    plt.close()
