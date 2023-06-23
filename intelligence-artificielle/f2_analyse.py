@@ -5,9 +5,9 @@ if __name__ == "__main__":
     from f1_preparation_data import data
     from f2_partitionnement import k_means_scratch, k_means_sklearn
 
-    # # Reduction de la taille de data en prenant 10% de chaque classe
-    # # pour chaque label
-    # data = data.groupby("descr_grav").apply(lambda x: x.sample(frac=0.1))
+    # Reduction de la taille de data en prenant 10% de chaque classe
+    # pour chaque label
+    data = data.groupby("descr_grav").apply(lambda x: x.sample(frac=0.1))
 
     # Preparation des données pour le clustering
     # Recuperation des longitudes et latitudes par gravité d'accident
@@ -76,7 +76,6 @@ if __name__ == "__main__":
     from utils import current_path
 
     def plot_scores(scores, title, filename):
-        plt.figure(figsize=(10, 10))
         plt.imshow(scores, cmap=plt.get_cmap("viridis"))
         plt.title(title)
         plt.xlabel("k")
@@ -94,7 +93,7 @@ if __name__ == "__main__":
             plt.text(
                 i,
                 j,
-                round(label, 3),
+                round(label, 3) if label < 100 else int(label),
                 ha="center",
                 va="center",
                 color="w" if label < scores_avg else "k",
