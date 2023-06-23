@@ -41,6 +41,8 @@ class KMeansScrach:
             np.not_equal(self.cluster_centers_, prev_centroids).any()
             and iteration < self.max_iter
         ):
+            prev_centroids = self.cluster_centers_
+
             self.cluster_centers_ = []
             for i in range(self.n_clusters):
                 temp_centroid = X_train[points == i].mean(axis=0)
@@ -51,7 +53,6 @@ class KMeansScrach:
             distances = [self.dist_metric(x, self.cluster_centers_) for x in X_train]
             points = np.argmin(distances, axis=1)
 
-            prev_centroids = self.cluster_centers_
             iteration += 1
             print(f"Iteration {iteration} / {self.max_iter}")
 
