@@ -45,8 +45,16 @@ class KMeansScrach:
 
             self.cluster_centers_ = []
             for i in range(self.n_clusters):
-                temp_centroid = X_train[points == i].mean(axis=0)
-                self.cluster_centers_.append(temp_centroid)
+                temp_points = X_train[points == i]
+                if len(temp_points) == 0:
+                    self.cluster_centers_.append(
+                        np.random.uniform(
+                            [min_lat, min_long], [max_lat, max_long], (1, 2)
+                        )
+                    )
+                else:
+                    temp_centroid = X_train[points == i].mean(axis=0)
+                    self.cluster_centers_.append(temp_centroid)
 
             self.cluster_centers_ = np.vstack(self.cluster_centers_)
 
@@ -54,7 +62,6 @@ class KMeansScrach:
             points = np.argmin(distances, axis=1)
 
             iteration += 1
-            print(f"Iteration {iteration} / {self.max_iter}")
 
         self.indexes = points
 
